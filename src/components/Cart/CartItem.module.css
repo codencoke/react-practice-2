@@ -54,8 +54,8 @@
   border-radius: 6px;
   background-color: transparent;
   cursor: pointer;
-  margin-left: 1rem;
   margin: 0.25rem;
+  margin-left: 1rem;
 }
 
 .cart-item button:hover,

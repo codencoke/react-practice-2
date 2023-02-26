@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import styles from './Cart.module.css'
 import FoodContext from "../../context/food-context";
 import CartItem from "./CartItem";
@@ -19,14 +19,34 @@ const Modal = (props) => {
 
 const CartModal = (props) => {
     const {foodContext} = useContext(FoodContext);
+    const {setIsOpen} = useContext(CartOpen);
+
+    let tempSum = 0;
+    foodContext.forEach(food => {
+        if (food.amount) {
+            tempSum += +(food.price * food.amount);
+        }
+    });
+
+    const [sum, setSum] = useState(tempSum);
+
+
     return (
         <div className={styles.cartItems}>
             {foodContext.map(food => {
                 if (food.amount) {
-                    return <CartItem key={food.id} food={food}/>
+                    return <CartItem key={food.id} food={food} setSum={setSum}/>
                 }
-                return <></>
+                return '';
             })}
+            <div className={styles.total}>
+                Total: ${sum.toFixed(2)}
+                <button onClick={() => {
+                    setIsOpen(false)
+                }}>cancel
+                </button>
+                <button>order</button>
+            </div>
         </div>
     );
 }
